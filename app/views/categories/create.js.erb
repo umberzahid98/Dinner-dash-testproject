@@ -1,0 +1,21 @@
+$("#flash").html('<%= j render partial: "shared/notice_banner" %>');
+<%if @category.errors.full_messages.any?%>
+
+  $("#category-updated-errors").empty().append(
+  `
+    <% if @category.errors.full_messages.any? %>
+      <% @category.errors.full_messages.each do |error_message| %>
+        <%= error_message  %> <br />
+      <% end %>
+    <% end %>
+  `
+)
+<%else%>
+  $('body').removeClass('modal-open')
+  $('.modal-backdrop').remove()
+  $("#newcategorymodal").modal('hide')
+  $("#category-updated-errors").remove()
+  $(".category_name").val('')
+  $("#container_categories").empty().append('<%= j render @categories %>')
+<%end%>
+

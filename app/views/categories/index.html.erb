@@ -1,0 +1,27 @@
+<h1>Categories</h1>
+<button type="button" class="btn btn-primary btn-lg" data-toggle="modal" data-target="#newcategorymodal">
+  <% if policy(:category).create? %>
+    Add Category
+  <%end%>
+</button>
+<div class="row">
+  <div class="col-md-4  blog-main box text-center">
+    <div class="panel panel-info">
+      <div class="panel-heading">
+        <h3 class="panel-name"></h3>
+        <table class="table table-hover" id="container_categories">
+          <tr>
+            <th>No.</th>
+            <th>Category</th>
+            <div>
+              <%= render @categories %>
+            </div>
+        </table>
+      </div>
+    </div>
+  </div>
+</div>
+<%= render 'category_modal'%>
+<br>
+<br>
+

@@ -1,0 +1,5 @@
+$("#flash").html('<%= j render partial: "shared/notice_banner" %>');
+
+$("#orders_index_container").empty().append(`<div id="summary_container"><%= j render "summary",orders: @orders%></div>`)
+
+$("#orders_index_container").append(` <div id="orders_container"><%= j render @orders%></div>`)

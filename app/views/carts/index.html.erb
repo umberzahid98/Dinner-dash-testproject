@@ -1,0 +1,29 @@
+<!-- zxcx -->
+<div class="row">
+  <%if @user_inline_items%>
+  <div id="cart_total">
+    <h1>Total: Rs. <%=@user_inline_items.where(status: "non-checkedout").sum('price*quantity')%></h1>
+  </div>
+  <%else%>
+  <div>
+    <h1>Total: 0</h1>
+  </div>
+  <%end%>
+  <div class="md-col-6">
+    <%if current_user%>
+      <%= form_with(model:@order, remote: true ) do |t| %>
+      <input hidden name="_method" value="POST">
+      <button type="submit" class="btn btn-primary">checkout</button>
+      <% end %>
+    <%end%>
+  </div>
+</div>
+<div class="jumbotron md-col-8">
+  <h5 class="display-4 ">My Cart</h5>
+  <hr>
+  <div class="row" id="container_inline_items">
+    <%if @user_inline_items%>
+    <%= render :partial => "inline_item", :collection => @user_inline_items.where(status: "non-checkedout")%>
+    <%end%>
+  </div>
+</div>

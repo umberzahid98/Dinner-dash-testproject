@@ -1,0 +1,63 @@
+// Place all the styles related to the orders controller here.
+// They will automatically be included in application.css.
+// You can use Sass (SCSS) here: http://sass-lang.com/
+.ordered_status{
+  color:white;
+  background-color:orange ;
+  padding: 1vh 1vh;
+  border-bottom-left-radius: 1rem;
+  border-top-left-radius: 1rem;
+  border-bottom-right-radius: 1rem;
+  border-top-right-radius: 1rem;
+  width:110px;
+}
+.cancelled_status{
+  color:white;
+  background-color:rgb(245, 57, 20) ;
+  padding: 1vh 1vh;
+  border-bottom-left-radius: 1rem;
+  border-top-left-radius: 1rem;
+  border-bottom-right-radius: 1rem;
+  border-top-right-radius: 1rem;
+  width:110px;
+}
+.paid_status{
+  color:white;
+  background-color:rgb(24, 117, 112) ;
+  padding: 1vh 1vh;
+  border-bottom-left-radius: 1rem;
+  border-top-left-radius: 1rem;
+  border-bottom-right-radius: 1rem;
+  border-top-right-radius: 1rem;
+  width:110px;
+}
+.completed_status{
+  color:white;
+  background-color:rgb(117, 207, 39) ;
+  padding: 1vh 1vh;
+  border-bottom-left-radius: 1rem;
+  border-top-left-radius: 1rem;
+  border-bottom-right-radius: 1rem;
+  border-top-right-radius: 1rem;
+  width:110px;
+}
+.selected_status_div{
+  color:white;
+  background-color:rgb(126, 106, 165) ;
+  padding: 1vh 1vh;
+  border-bottom-left-radius: 1rem;
+  border-top-left-radius: 1rem;
+  border-bottom-right-radius: 1rem;
+  border-top-right-radius: 1rem;
+  width:190px;
+  display: none;
+}
+.cancelled_button{
+  background-color:rgb(246, 55, 21) ;
+}
+.paid_button{
+  background-color:rgb(31, 148, 142) ;
+}
+.completed_button{
+  background-color:rgb(57, 223, 57) ;
+}

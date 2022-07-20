@@ -1,0 +1,5 @@
+
+$("#flash").html('<%= j render partial: "shared/notice_banner" %>');
+$("#item_<%= @item.id %>").fadeOut(500, function(){
+  $(this).remove();
+});

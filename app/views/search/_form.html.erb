@@ -1,0 +1,5 @@
+<%= search_form_for(@query, url: search_index_path, method: :get,class:'form-inline my-2 my-lg-0 ') do |f| %>
+    <%= f.search_field :title_i_cont_any, placeholder: "Search...", class: "form-control mr-sm-2"%>
+    <%= f.submit "Search!", class: "btn btn-outline-success my-2 my-sm-0" %>
+    <%=select_tag 'selected_category', options_for_select(Category.all.collect{ |u| [u.name] }),{include_blank: "select category"} %>
+<% end %>

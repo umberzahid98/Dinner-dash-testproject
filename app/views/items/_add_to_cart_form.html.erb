@@ -1,0 +1,15 @@
+<%= form_with(model: @inline_item, local: true) do |f| %>
+<div class="field">
+  <input hidden name="inline_item[item_id]" value="<%=item.id%>"/>
+  <input hidden name="inline_item[quantity]" value="1"/>
+  <input hidden name="inline_item[price]" value="<%=item.price%>"/>
+</div>
+<input hidden name="_method" value="POST">
+<%if current_user%>
+  <%if !current_user.admin?%>
+    <button type="submit" class="btn btn-primary">Add to cart</button>
+  <%end%>
+<%else%>
+  <button type="submit" class="btn btn-primary">Add to cart</button>
+<%end%>
+<% end %>

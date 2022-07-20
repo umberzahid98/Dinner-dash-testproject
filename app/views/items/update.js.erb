@@ -1,0 +1,23 @@
+$("#flash").html('<%= j render partial: "shared/notice_banner" %>')
+<%if !params[:item][:status].nil? %>
+  $("#container_items").empty().append(`<%= j render @items%>`);
+<%elsif !params[:commit]%>
+  $("#container_items").empty().append(`<%= j render @items%>`);
+  $('body').removeClass('modal-open');
+  $('.modal-backdrop').remove();
+  $(".item-updated-errors").empty();
+<%elsif @item.errors.full_messages.any?%>
+  $(".item-updated-errors").empty().append(
+  `
+    <% if @item.errors.full_messages.any? %>
+      <% @item.errors.full_messages.each do |error_message| %>
+        <%= error_message  %> <br />
+      <% end %>
+    <% end %>
+  `);
+<%else%>
+  $("#container_items").empty().append(`<%= j render @items%>`);
+  $('body').removeClass('modal-open');
+  $('.modal-backdrop').remove();
+<%end%>
+

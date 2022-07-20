@@ -1,0 +1,15 @@
+<p id="notice"><%= notice %></p>
+<p>
+  <strong>Title:</strong>
+  <%= @item.title %>
+</p>
+<%= image_tag(@item.thumbnail)  if @item.image.attached?%>
+<p>
+  <strong>Description:</strong>
+  <%= @item.description %>
+</p>
+<p>
+  <strong>Price:</strong>
+  <%= @item.price %>
+</p>
+<%= link_to 'Back', items_path %>

@@ -1,0 +1,8 @@
+<%= form_with( model:item , remote: true) do |t| %>
+  <%if item.permit?%>
+    <%= t.hidden_field :status, :value=> "not_permit" %>
+  <%else%>
+    <%= t.hidden_field :status, :value=> "permit" %>
+  <%end%>
+  <%= t.submit tag, class:"btn btn-danger mr-2" %>
+<% end %>

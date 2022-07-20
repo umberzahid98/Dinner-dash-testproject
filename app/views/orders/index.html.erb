@@ -1,0 +1,15 @@
+<div id="orders_page">
+<div id="orders_history"><h1>Orders History</h1></div>
+<div id="orders_index_container">
+<%if current_user%>
+  <%if current_user.admin?%>
+    <div id="summary_container">
+    <%=render "summary",orders: @orders%>
+    </div>
+  <%end%>
+<%end%>
+  <div id="orders_container">
+  <%=render @orders%>
+  </div>
+</div>
+</div>

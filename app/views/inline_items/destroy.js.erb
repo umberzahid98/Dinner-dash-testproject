@@ -1,0 +1,5 @@
+$("#flash").html('<%= j render partial: "shared/notice_banner" %>');
+$("#container_inline_items").empty().append(` <%if @user_inline_items%>
+        <%= j render :partial => "carts/inline_item", :collection => @user_inline_items%>
+      <%end%>`)
+$("#cart_total").empty().append(`<h1>Total: Rs. <%=@user_inline_items.sum('price*quantity')%></h1>`)

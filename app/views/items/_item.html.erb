@@ -1,0 +1,51 @@
+<div class="col-md-4  blog-main box text-center center " id="item_<%= item.id %>">
+  <div class="panel panel-info">
+    <div class="panel-heading">
+      <h3 class="panel-title "><%=link_to item.title, item, class:"item_partial"%></h3>
+      <%= image_tag(item.thumbnail)  if item.image.attached?%>
+      <p><%=item.description%></p>
+    </div>
+    <div class="panel-body center">
+      <div style="color: #3BB2D6;"><%= time_ago_in_words(item.created_at)%>
+      </div>
+      <div>
+        <%if current_user%>
+          <%if current_user.admin?%>
+            <%if item.permit?%>
+              <%tag="Retire Item"%>
+              <%else%>
+              <%tag="mark as available"%>
+            <%end%>
+            <%= render 'item_permission_form', tag: tag,  item: item %>
+          <%end%>
+        <%end%>
+      </div>
+      <br>
+      <div class="btn-group" role="group" aria-label="...">
+        <%if current_user%>
+        <%if current_user.admin?%>
+        <button type="button" class="btn btn-warning" data-toggle="modal" data-target="#myupdateitem_<%= item.id%>">
+          Edit
+        </button>
+        <%end%>
+        <%end%>
+      </div>
+      <br>
+      <br>
+      <div>
+      </div>
+    </div>
+  </div>
+  <%if item.permit?%>
+  <%if !(present_in_cart?(item))%>
+  <%= render 'add_to_cart_form', item: item %>
+  <%else%>
+  <div class="ml-5 added_message">Added</div>
+  <%end%>
+  <%else%>
+  <div style="width:120px;  margin-left: 8vw!important;" class="btn-danger mt-4">"Retired"</div>
+  <%end%>
+  <!-- Modal -->
+  <%= render 'edit_form', item: item %>
+</div>
+

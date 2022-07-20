@@ -1,0 +1,5 @@
+$("#members").empty().append(`<%=@orders.pluck(:price)%>`)
+$("#orders_container").empty().append(` <%if @orders%>
+        <%= j render :partial => "order", :collection => @orders%>
+      <%end%>`)
+$("#selected_status").show().empty().append(`<%="Selected status:  "%><hr><%=@status_searched%>`)

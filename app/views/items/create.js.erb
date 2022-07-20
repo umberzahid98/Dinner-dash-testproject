@@ -1,0 +1,23 @@
+$("#flash").html('<%= j render partial: "shared/notice_banner" %>');
+<%if @item.errors.full_messages.any?%>
+  $("#item-new-errors").empty().append(
+  `
+    <% if @item.errors.full_messages.any? %>
+      <% @item.errors.full_messages.each do |error_message| %>
+        <%= error_message  %> <br />
+      <% end %>
+    <% end %>
+  `)
+<%else%>
+  $('body').removeClass('modal-open')
+  $('.modal-backdrop').remove()
+  $("#mynewitem").modal('hide')
+  $("#item-new-errors").empty()
+  $(".item_title").val('')
+  $(".item_description").val('')
+  $(".item_price").val('')
+  $("#my_image").val(null)
+  $("#container_items").empty().append('<%= j render @items %>')
+
+<%end%>
+

@@ -1,0 +1,19 @@
+// Place all the styles related to the items controller here.
+// They will automatically be included in application.css.
+// You can use Sass (SCSS) here: http://sass-lang.com/
+.item_partial {
+  color: black;
+
+}
+.item-div{
+  float:right;
+}
+
+.added_message{
+  color:white;
+  background-color:rgb(117, 207, 39) ;
+  border-bottom-left-radius: 0.5rem;
+  border-top-left-radius: 0.5rem;
+  border-bottom-right-radius: 0.5rem;
+  border-top-right-radius: 0.5rem;
+}

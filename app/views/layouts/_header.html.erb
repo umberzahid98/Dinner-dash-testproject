@@ -1,0 +1,69 @@
+<nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+  <div class="container-fluid">
+    <%= link_to 'Dinner Dash', items_path, class:"navbar-brand"%>
+    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent"
+      aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+        <%if current_user%>
+        <li style="color:green;font-weight: bold;" class="mt-2 nav-item">
+          <%=current_user.display_name || current_user.full_name%>
+        </li>
+        <%end%>
+        <%if current_user%>
+        <li style="color:white;font-weight: bold;" class="mt-2 nav-item">
+          <%=current_user.role%>
+        </li>
+        <%end%>
+
+        <%if !current_user || current_user.user?%>
+        <li class="nav-item">
+          <%= link_to "My Cart", carts_path, class:"nav-link"%>
+        </li>
+        <%end%>
+        <%if current_user%>
+        <%if current_user.user?%>
+        <li class="nav-item">
+          <%= link_to "My Orders", orders_path, class:"nav-link"%>
+        </li>
+        <%end%>
+        <%end%>
+        <%if current_user%>
+        <%if current_user.admin?%>
+        <li class="nav-item">
+          <%= link_to "All Orders", orders_path, class:"nav-link"%>
+        </li>
+        <%end%>
+        <%end%>
+        <li class="nav-item">
+          <%= link_to "Items", items_path, class:"nav-link"%>
+        </li>
+        <%if current_user%>
+        <%if current_user.admin?%>
+        <li class="nav-item">
+          <%= link_to "Category", categories_path, class:"nav-link"%>
+        </li>
+        <%end%>
+        <%end%>
+        <%if current_user%>
+        <li class="nav-item">
+          <%= link_to "Sign out", destroy_user_session_path, method: :delete ,class:"nav-link"%>
+        </li>
+        <%else%>
+        <li class="nav-item">
+          <%= link_to "Sign in", new_user_session_path, class:"nav-link"%>
+        </li>
+        </li>
+        <li class="nav-item">
+          <%= link_to "Sign up", new_user_registration_path, class:"nav-link"%>
+        </li>
+        <%end%>
+        <li>
+          <%= render 'search/form' %>
+        </li>
+      </ul>
+    </div>
+  </div>
+</nav>

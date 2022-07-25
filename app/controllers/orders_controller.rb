@@ -36,29 +36,30 @@ class OrdersController < ApplicationController
   end
 
   def create
-    if !user_inline_item_id.empty?
+    if (!user_inline_item_id.empty?)
+
       @order = current_user.orders.new(inline_item_ids: user_inline_item_id, price: calculate_bill)
-      respond_to do |_format|
-        create_order
+      @user_cart = current_user.inline_items.where(status: "non-checkedout").update_all(status: "checkedout")
+
+      respond_to do |format|
+
+        if @order.save
+          redirect_to order_url(@order), notice: "order was successfully created."
+        end
+        format.js
       end
     else
-      no_inline_item
+      @empty_cart = true
+      respond_to do |format|
+        format.js
+      end
     end
   end
 
   private
 
-  def create_order
-    if @order.save
-      @user_cart = current_user.inline_items.where(status: "non-checkedout").update(status: "checkedout")
-      format.html { redirect_to order_url(@order), notice: "order was successfully created." }
-    else
-      format.js { flash.now[:notice] = "Order is not created" }
-    end
-  end
-
   def authorize_order
-    authorize Order
+    # authorize Order
   end
 
   def fetching_orders
@@ -92,6 +93,7 @@ class OrdersController < ApplicationController
   end
 
   def find_user_inline_items
+byebug
     if current_user
       InlineItem.where(user_id: current_user.id).where(status: "non-checkedout")
     else

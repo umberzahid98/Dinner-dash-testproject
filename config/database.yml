@@ -25,7 +25,7 @@ development:
 # Do not set this db to the same as development or production.
 test:
   <<: *default
-  database: test_project
+  database: umber_project
   adapter: postgresql
   encoding: unicode
   pool: 5

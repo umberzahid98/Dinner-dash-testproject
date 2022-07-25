@@ -11,9 +11,9 @@ class InlineItemsController < ApplicationController
     respond_to do |format|
       if @inline_item.update(inline_item_params)
         @user_inline_items = user_inline_item
-        format.js { flash.now[:notice] = "Cart Item updated" }
+        format.js { flash.now[:notice] = 'Cart Item updated' }
       else
-        format.js { flash.now[:notice] = "Cart Item not updated" }
+        format.js { flash.now[:notice] = 'Cart Item not updated' }
       end
     end
   end
@@ -22,9 +22,9 @@ class InlineItemsController < ApplicationController
     respond_to do |format|
       if @inline_item.destroy
         @user_inline_items = user_inline_item
-        format.js { flash.now[:notice] = "Item removed from cart!" }
+        format.js { flash.now[:notice] = 'Item removed from cart!' }
       else
-        format.js { flash.now[:notice] = "Item not removed from cart!" }
+        format.js { flash.now[:notice] = 'Item not removed from cart!' }
       end
     end
   end
@@ -32,9 +32,9 @@ class InlineItemsController < ApplicationController
   def create
     respond_to do |format|
       if @inline_item.save
-        format.html { redirect_to items_path, notice: "added to cart!" }
+        format.html { redirect_to items_path, notice: 'added to cart!' }
       else
-        format.html { redirect_to items_path, notice: "Not added to cart!" }
+        format.html { redirect_to items_path, notice: 'Not added to cart!' }
       end
     end
   end
@@ -56,7 +56,7 @@ class InlineItemsController < ApplicationController
 
   def user_inline_item
     if current_user
-      InlineItem.where(user_id: current_user.id).where(status: "non-checkedout")
+      InlineItem.where(user_id: current_user.id).where(status: 'non-checkedout')
     else
       cart = Cart.find_by(id: session[:cart_id])
       InlineItem.where(cart: session[:cart_id]) if cart
@@ -70,9 +70,9 @@ class InlineItemsController < ApplicationController
 
   def initialize_item
     @inline_item = if current_user
-        InlineItem.new(inline_item_params.merge!(cart: @cart.id, user_id: current_user.id))
-      else
-        InlineItem.new(inline_item_params.merge!(cart: @cart.id))
-      end
+                     InlineItem.new(inline_item_params.merge!(cart: @cart.id, user_id: current_user.id))
+                   else
+                     InlineItem.new(inline_item_params.merge!(cart: @cart.id))
+                   end
   end
 end

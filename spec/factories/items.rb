@@ -14,10 +14,6 @@ FactoryBot.define do
       ]
     end
 
-    after(:build) do |item|
-      item.image.attach(io: File.open('spec/profile.png'), filename: 'profile.png', content_type: 'image/png')
-    end
-
     trait :permit do
       status { 0 }
     end

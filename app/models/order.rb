@@ -5,6 +5,9 @@ class Order < ApplicationRecord
   scope :user_orders, ->(user_id) { where(user_id: user_id) }
   belongs_to :user
   validates :status, presence: true
+  validates :inline_item_ids, presence: true
+
+  validates :price, numericality: { only_float: true}
   enum status: { ordered: 0, paid: 1, completed: 2, cancelled: 3 }
   # setting the default status at the time of creation
   after_initialize :set_default_status, if: :new_record?

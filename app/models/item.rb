@@ -11,7 +11,7 @@ class Item < ApplicationRecord
   validates :description, presence: true
   validates :price, numericality: { only_float: true, greater_than: 0 }
   validate :save_object?
-  validate :image_type
+  # validate :image_type
 
   enum status: { permit: 0, not_permit: 1 }
   # setting the default status at the time of creation

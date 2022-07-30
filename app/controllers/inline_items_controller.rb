@@ -58,7 +58,7 @@ class InlineItemsController < ApplicationController
     if(params[:inline_item][:cart_id])
       @cart = Cart.find(params[:inline_item][:cart_id])
     else
-      # @cart = Cart.find_by(session[:cart_id])
+      @cart = Cart.find_by(id: session[:cart_id])
     end
   end
 
@@ -70,8 +70,8 @@ class InlineItemsController < ApplicationController
         cart = Cart.find_by(id: params[:inline_item][:cart_id])
         InlineItem.where(cart: params[:inline_item][:cart_id]) if cart
       else
-        # cart = Cart.find_by(id: session[:cart_id])
-        # InlineItem.where(cart: session[:cart_id]) if cart
+        cart = Cart.find_by(id: session[:cart_id])
+        InlineItem.where(cart: session[:cart_id]) if cart
       end
     end
   end

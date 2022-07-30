@@ -19,5 +19,4 @@ class CartsController < ApplicationController
     end
     user_inline_items
   end
-
 end

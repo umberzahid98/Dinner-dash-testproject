@@ -13,6 +13,7 @@ class InlineItemsController < ApplicationController
         @user_inline_items = user_inline_item
         format.js { flash.now[:notice] = "Cart Item updated" }
       else
+        @user_inline_items = user_inline_item
         format.js { flash.now[:notice] = "Cart Item not updated" }
       end
     end
@@ -20,11 +21,13 @@ class InlineItemsController < ApplicationController
 
   def destroy
     respond_to do |format|
-      if @inline_item.destroy
+      if @inline_item
+        @inline_item.destroy
         @user_inline_items = user_inline_item
-        format.js { flash.now[:notice] = "Item removed from cart!" }
+        format.js { flash.now[:notice] = "Inline Item removed from cart!" }
       else
-        format.js { flash.now[:notice] = "Item not removed from cart!" }
+        @user_inline_items = user_inline_item
+        format.js { flash.now[:notice] = "Inline Item not removed from cart!" }
       end
     end
   end
@@ -43,7 +46,7 @@ class InlineItemsController < ApplicationController
 
   # Use callbacks to share common setup or constraints between actions.
   def set_inline_item
-    @inline_item = InlineItem.find(params[:id])
+    @inline_item = InlineItem.find_by(id: params[:id])
   end
 
   def authorize_inline_item
@@ -51,15 +54,25 @@ class InlineItemsController < ApplicationController
   end
 
   def set_cart
-    @cart = Cart.find_by(id: session[:cart_id])
+
+    if(params[:inline_item][:cart_id])
+      @cart = Cart.find(params[:inline_item][:cart_id])
+    else
+      # @cart = Cart.find_by(session[:cart_id])
+    end
   end
 
   def user_inline_item
     if current_user
       InlineItem.where(user_id: current_user.id).where(status: "non-checkedout")
     else
-      cart = Cart.find_by(id: session[:cart_id])
-      InlineItem.where(cart: session[:cart_id]) if cart
+      if(params[:inline_item][:cart_id])
+        cart = Cart.find_by(id: params[:inline_item][:cart_id])
+        InlineItem.where(cart: params[:inline_item][:cart_id]) if cart
+      else
+        # cart = Cart.find_by(id: session[:cart_id])
+        # InlineItem.where(cart: session[:cart_id]) if cart
+      end
     end
   end
 

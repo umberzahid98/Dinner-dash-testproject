@@ -6,7 +6,7 @@ This is a Dinner Dash App.
   * Rails 5.2.8
   * PostgreSQL 14.4
 ## Clone the Repository and move to project directory
-  * git clone https://github.com/umberzahid98/testproject.git
+  * git clone https://github.com/umberzahid98/Dinner-dash-testproject
   * cd testproject
 ## Install Dependencies
   * bundle

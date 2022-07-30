@@ -9,7 +9,6 @@ class OrdersController < ApplicationController
   def index
     fetching_orders
     return unless params[:search]
-
     @orders = Order.where(status: params[:search])
     @status_searched = params[:search]
     respond_to do |format|
@@ -20,13 +19,16 @@ class OrdersController < ApplicationController
   def show; end
 
   def update
+
     # created_at: :desc
     @orders = Order.all.order(:created_at)
     respond_to do |format|
       if @order.update(order_params)
-        format.js { flash.now[:notice] = "Order is updated successfully" }
+        flash.now[:notice] = "Order is updated successfully"
+        format.js
       else
-        format.js { flash.now[:notice] = "Order is not updated" }
+        flash.now[:notice] = "Order is not updated"
+        format.js
       end
     end
   end
@@ -36,29 +38,28 @@ class OrdersController < ApplicationController
   end
 
   def create
-    if !user_inline_item_id.empty?
+
+    if (!user_inline_item_id.empty?)
       @order = current_user.orders.new(inline_item_ids: user_inline_item_id, price: calculate_bill)
-      respond_to do |_format|
-        create_order
+      @user_cart = current_user.inline_items.where(status: "non-checkedout").update_all(status: "checkedout")
+      if @order.save
+        redirect_to order_url(@order), notice: "order was successfully created."
+      else
+        # flash.now[:notice] = "order is not created"
       end
     else
-      no_inline_item
+      # no_inline_item
     end
+    respond_to do |format|
+      format.js
+    end
+
   end
 
   private
 
-  def create_order
-    if @order.save
-      @user_cart = current_user.inline_items.where(status: "non-checkedout").update(status: "checkedout")
-      format.html { redirect_to order_url(@order), notice: "order was successfully created." }
-    else
-      format.js { flash.now[:notice] = "Order is not created" }
-    end
-  end
-
   def authorize_order
-    authorize Order
+    # authorize Order
   end
 
   def fetching_orders
@@ -76,7 +77,7 @@ class OrdersController < ApplicationController
 
   # Only allow a list of trusted parameters through.
   def order_params
-    params.require(:order).permit(:user_id, :status, :price, :search)
+    params.require(:order).permit(:user_id, :status, :price)
   end
 
   def calculate_bill
@@ -88,22 +89,24 @@ class OrdersController < ApplicationController
   end
 
   def user_inline_item_id
+    # byebug
     find_user_inline_items.pluck(:id)
   end
 
   def find_user_inline_items
     if current_user
       InlineItem.where(user_id: current_user.id).where(status: "non-checkedout")
-    else
-      cart = Cart.find_by(id: session[:cart_id])
-      InlineItem.where(cart: session[:cart_id]).where(status: "non-checkedout") if cart
+    # else
+    #   cart = Cart.find_by(id: session[:cart_id])
+    #   InlineItem.where(cart: session[:cart_id]).where(status: "non-checkedout") if cart
     end
   end
 
-  def no_inline_item
-    @empty_cart = true
-    respond_to do |format|
-      format.js { flash.now[:notice] = "No inline Item present" }
-    end
-  end
+  # def no_inline_item
+  #   byebug
+  #   @empty_cart = true
+  #   respond_to do |format|
+  #     format.js { flash.now[:notice] = "No inline Item present" }
+  #   end
+  # end
 end

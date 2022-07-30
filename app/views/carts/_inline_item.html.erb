@@ -2,8 +2,7 @@
   <div class="row cart">
     <div class="row main align-items-center " style="background-color:white">
       <%item=Item.find_by(id: inline_item.item_id)%>
-      <div class="col-2 mr-5"><%= image_tag(item.thumbnail)  if item.image.attached?%>
-      </div>
+
       <div class="col">
         <div class="row ml-5"><%=link_to item.title, item, class:"item_partial"%>
         </div>

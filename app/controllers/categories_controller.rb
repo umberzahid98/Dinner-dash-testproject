@@ -22,7 +22,7 @@ class CategoriesController < ApplicationController
   private
 
   def authorize_category
-    authorize Category
+    # authorize Category
   end
 
   # Use callbacks to share common setup or constraints between actions.

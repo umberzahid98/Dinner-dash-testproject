@@ -13,11 +13,15 @@ FactoryBot.define do
         FactoryBot.create(:category)
       ]
     end
+    trait :no_category do
+      category_ids {[]}
+    end
 
     trait :permit do
       status { 0 }
     end
 
     factory :permited_items, traits: [:permit]
+    factory :without_category_item, traits: [:no_category]
   end
 end

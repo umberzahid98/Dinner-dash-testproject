@@ -1,5 +1,4 @@
 require 'rails_helper'
-# require_relative '../support/devise'
 RSpec.describe OrdersController, type: :request do
   describe "GET /" do
 
@@ -10,21 +9,15 @@ RSpec.describe OrdersController, type: :request do
     let!(:inline_item1) {FactoryBot.create(:user_inline_item,user_id: user.id)}
     let!(:inline_item2) {FactoryBot.create(:user_inline_item,user_id: user.id)}
     let!(:user_order) { FactoryBot.create(:order, user_id: user.id,price: ((inline_item1.quantity*inline_item1.price)+(inline_item2.quantity*inline_item2.price)),inline_item_ids: [inline_item1.id,inline_item2.id])}
-  # let!(:user_two) {FactoryBot.create(:user)}
 
-    # create action
-
-    before do
-      sign_in user
-    end
-
+    # create action with loged in user
     describe "create" do
       before do
+        sign_in user
         post orders_url, xhr: true
       end
-      
-      context "" do
-        it 'is expected to create new order  successfully' do
+      context "with valid attributes" do
+        it 'is expected to create new order successfully' do
           expect(assigns[:order]).to be_instance_of(Order)
           expect(response).to be_successful
           assert(response.content_type, "text/javascript")
@@ -38,7 +31,26 @@ RSpec.describe OrdersController, type: :request do
       end
     end
 
+    # create action with loged in admin
+    describe "creating order" do
+      before do
+        sign_in admin
+        post orders_url, xhr: true
+      end
+      context "with admin role and valid attributes" do
+        let!(:user_order) { FactoryBot.create(:order, user_id: admin.id,price: ((inline_item1.quantity*inline_item1.price)+(inline_item2.quantity*inline_item2.price)),inline_item_ids: [inline_item1.id,inline_item2.id])}
+        it 'is not expected to create new order successfully' do
+          expect(assigns[:order]).to eql(nil)
+          expect(response).to be_successful
+          expect(assigns[:order]).to eq(nil)
+        end
+      end
+    end
+
     describe "index " do
+      before do
+        sign_in user
+      end
       context "with valid attributes" do
         it "is expected to return the orders" do
           get orders_url(search:"ordered"), xhr: true
@@ -88,6 +100,9 @@ RSpec.describe OrdersController, type: :request do
 
     # update action
     describe "update" do
+      before do
+        sign_in admin
+      end
       context "with valid attributes" do
         before do
           patch order_url(user_order.id), params: { order: { status: "paid"}}, xhr: true
@@ -111,5 +126,21 @@ RSpec.describe OrdersController, type: :request do
         end
       end
     end
+
+    describe "creating order" do
+
+      before do
+        sign_in new_user
+        post orders_url, xhr: true
+      end
+      context "with invalid attributes" do
+        let!(:new_user){FactoryBot.create(:user)}
+        let!(:user_order) { Order.create( user_id: new_user.id,price:"57",inline_item_ids: [])}
+        it 'is not expected to create new order successfully' do
+          expect(flash[:notice]).to eq("No inline Item present")
+        end
+      end
+    end
+
   end
 end
